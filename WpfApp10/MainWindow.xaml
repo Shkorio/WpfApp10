@@ -1,0 +1,73 @@
+﻿<Window x:Class="WpfApp10.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp10"
+        mc:Ignorable="d"
+        Title="Редактирование студентов" Height="483" Width="800">
+    <Window.Resources>
+        <ContextMenu x:Key="listMenu">
+            <MenuItem Header="Добавить" Click="AddStudent"/>
+            <MenuItem Header="Удалить" Click="DeleteStudent"/>
+        </ContextMenu>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Canvas Grid.Row="2" Grid.Column="1" Background="BLACK"/>
+        <Menu Grid.ColumnSpan="2" Background="#FF0D29C0">
+            <MenuItem Header="Справочники">
+                <MenuItem Header="Специальности" Click="OpenSpecials"/>
+                <MenuItem Header="Группы" Click="OpenGroups"/>
+                <MenuItem Header="Кураторы" Click="OpenCurators"/>
+            </MenuItem>
+        </Menu>
+        <ListBox Grid.Row="1" SelectedItem="{Binding SelectedStudent}"
+                 ItemsSource="{Binding Students}" 
+                 DisplayMemberPath="LastName" 
+                 ContextMenu="{StaticResource listMenu}" SelectionChanged="ListBox_SelectionChanged" Background="#FF233077"
+                 />
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+            <StackPanel 
+                DataContext="{Binding SelectedStudent}"
+                Orientation="Vertical">
+                <Label Content="Имя" Grid.ColumnSpan="2"
+                   Foreground="AntiqueWhite" FontSize="16"/>
+                <TextBox Text="{Binding FirstName}"/>
+                <Label Content="Отчество" Grid.ColumnSpan="2"
+                   Foreground="Aqua" FontSize="16"/>
+                <TextBox Text="{Binding Patronymic}"/>
+                <Label Content="Фамилия" Grid.ColumnSpan="2"
+                   Foreground="Red" FontSize="16" Width="400" RenderTransformOrigin="0.505,0.537"/>
+                <TextBox Text="{Binding LastName}"/>
+                <Label Content="Дата рождения" Grid.ColumnSpan="2"
+                   Foreground="ForestGreen" FontSize="16"/>
+
+                <DatePicker SelectedDate="{Binding Birthday}" />
+                <Label Content="Рост студента" Grid.ColumnSpan="2"
+                   Foreground="ForestGreen" FontSize="16"/>
+                <TextBox Text="{Binding Heigth}"/>
+                <Label Content="Вес студента" Grid.ColumnSpan="2"
+                   Foreground="#8ffe09" FontSize="16"/>
+                <TextBox Text="{Binding Weigth}"/>
+            </StackPanel>
+            <Label Content="Отношение преподавателей к студенту" Grid.ColumnSpan="2"
+                   Foreground="#8ffe09" FontSize="16"/>
+            <ComboBox ItemsSource="{Binding Number}" 
+                      SelectedItem="{Binding SelectedCurator.Group}"
+                      DisplayMemberPath="Title"/>
+            <Label Content="Группа" Grid.ColumnSpan="2"
+                   Foreground="#8ffe09" FontSize="16"/>
+            <ComboBox ItemsSource="{Binding Groups}" 
+                      SelectedItem="{Binding SelectedStudent.Group}"
+                      DisplayMemberPath="Title"/>
+        </StackPanel>
+    </Grid>
+</Window>
